@@ -1,0 +1,20 @@
+@startuml Book
+
+!include ./book-id/BookId.pu
+!include ./title/Title.pu
+!include ./price/Price.pu
+!include ./price/Price.pu
+
+
+class "Book(書籍)" as Book << (R,red) RootEntity >> {
+    BookId: BookId
+    Title: タイトル
+    Price: 価格
+}
+
+Book *-down- BookId
+Stock *-down- BookId
+Book *-down- Title
+Book *-down- Price
+
+@enduml
