@@ -10,7 +10,7 @@
     "noUnusedParameters": true,
     "baseUrl": "./",
     "paths": {
-      "*": ["./src/*"]
+      "@/*": ["./src/*"]
     },
     "esModuleInterop": true
   },
