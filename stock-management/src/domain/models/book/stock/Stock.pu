@@ -1,9 +1,9 @@
 
 @startuml Stock
 
-!include ../status/Status.pu
-!include ../quantity-available/QuantityAvailable.pu
-!include ../stock-id/StockId.pu
+!include ./Status/Status.pu
+!include ./QuantityAvailable/QuantityAvailable.pu
+!include ./StockId/StockId.pu
 
 class "Stock(在庫)" as Stock << (E,green) Entity >> {
     StockId: StockId
