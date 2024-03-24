@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 import prisma from './prismaClient'
-import { IDataAccessClientManager } from '@/domain/Infrastructure/shared/IDataAccessClientManager'
+import { IDataAccessClientManager } from '@/infrastructure/shared/IDataAccessClientManager'
 
 type Client = PrismaClient | Prisma.TransactionClient
 

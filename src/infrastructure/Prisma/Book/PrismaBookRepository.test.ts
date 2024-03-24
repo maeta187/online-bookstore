@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { PrismaBookRepository } from './PrismaBookRepository'
-import { bookTestDataCreator } from '@/domain/Infrastructure/shared/Book/bookTestDataCreator'
+import { bookTestDataCreator } from '@/infrastructure/shared/Book/bookTestDataCreator'
 import { Book } from '@/domain/models/Book/Book'
 import { BookId } from '@/domain/models/Book/BookId/BookId'
 import { Title } from '@/domain/models/Book/Title/Title'
