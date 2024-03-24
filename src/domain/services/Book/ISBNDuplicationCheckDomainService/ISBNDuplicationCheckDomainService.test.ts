@@ -1,5 +1,5 @@
 import { ISBNDuplicationCheckDomainService } from './ISBNDuplicationCheckDomainService'
-import { InMemoryBookRepository } from '@/domain/Infrastructure/InMemory/Book/InMemoryBookRepository'
+import { InMemoryBookRepository } from '@/infrastructure/InMemory/Book/InMemoryBookRepository'
 import { BookId } from '@/domain/models/Book/BookId/BookId'
 import { Book } from '@/domain/models/Book/Book'
 import { Title } from '@/domain/models/Book/Title/Title'
