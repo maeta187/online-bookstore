@@ -6,5 +6,6 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
-  transformIgnorePatterns: ['/node_modules']
+  transformIgnorePatterns: ['/node_modules'],
+  setupFilesAfterEnv: ['./setupJest.ts']
 }
