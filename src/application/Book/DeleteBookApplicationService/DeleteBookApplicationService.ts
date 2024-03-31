@@ -1,14 +1,18 @@
 import { ITransactionManager } from '@/application/shared/ITransactionManager'
 import { BookId } from '@/domain/models/Book/BookId/BookId'
 import { IBookRepository } from '@/domain/models/Book/IBookRepository'
+import { injectable, inject } from 'tsyringe'
 
 export type DeleteBookCommand = {
   bookId: string
 }
 
+@injectable()
 export class DeleteBookApplicationService {
   constructor(
+    @inject('IBookRepository')
     private bookRepository: IBookRepository,
+    @inject('ITransactionManager')
     private transactionManager: ITransactionManager
   ) {}
 

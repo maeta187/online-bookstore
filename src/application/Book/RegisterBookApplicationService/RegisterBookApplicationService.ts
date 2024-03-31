@@ -5,6 +5,7 @@ import { IBookRepository } from '@/domain/models/Book/IBookRepository'
 import { Price } from '@/domain/models/Book/Price/Price'
 import { Title } from '@/domain/models/Book/Title/Title'
 import { ISBNDuplicationCheckDomainService } from '@/domain/services/Book/ISBNDuplicationCheckDomainService/ISBNDuplicationCheckDomainService'
+import { injectable, inject } from 'tsyringe'
 
 export type RegisterBookCommand = {
   isbn: string
@@ -12,9 +13,12 @@ export type RegisterBookCommand = {
   priceAmount: number
 }
 
+@injectable()
 export class RegisterBookApplicationService {
   constructor(
+    @inject('IBookRepository')
     private bookRepository: IBookRepository,
+    @inject('ITransactionManager')
     private transactionManager: ITransactionManager
   ) {}
 
