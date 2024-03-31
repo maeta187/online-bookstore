@@ -6,6 +6,7 @@ import { Stock } from './Stock/Stock'
 import { StockId } from './Stock/StockId/StockId'
 import { QuantityAvailable } from './Stock/QuantityAvailable/QuantityAvailable'
 import { Status, StatusEnum } from './Stock/Status/Status'
+import { BOOK_EVENT_NAME } from '@/domain/shared/DomainEvent/Book/BookDomainEventFactory'
 
 // nanoid() をモックする
 jest.mock('nanoid', () => ({
@@ -29,6 +30,8 @@ describe('Book', () => {
     it('デフォルト値で在庫を生成する', () => {
       const book = Book.create(bookId, title, price)
 
+      // 期待するドメインイベントが記録されているかどうかを検証する
+      expect(book.getDomainEvents()[0].eventName).toBe(BOOK_EVENT_NAME.CREATED)
       expect(book.bookId.equals(bookId)).toBeTruthy()
       expect(book.title.equals(title)).toBeTruthy()
       expect(book.price.equals(price)).toBeTruthy()
