@@ -6,6 +6,7 @@ import { Price } from '@/domain/models/Book/Price/Price'
 import { Title } from '@/domain/models/Book/Title/Title'
 import { ISBNDuplicationCheckDomainService } from '@/domain/services/Book/ISBNDuplicationCheckDomainService/ISBNDuplicationCheckDomainService'
 import { injectable, inject } from 'tsyringe'
+import { IDomainEventPublisher } from '@/domain/shared/DomainEvent/IDomainEventPublisher'
 
 export type RegisterBookCommand = {
   isbn: string
@@ -19,7 +20,9 @@ export class RegisterBookApplicationService {
     @inject('IBookRepository')
     private bookRepository: IBookRepository,
     @inject('ITransactionManager')
-    private transactionManager: ITransactionManager
+    private transactionManager: ITransactionManager,
+    @inject('IDomainEventPublisher')
+    private domainEventPublisher: IDomainEventPublisher
   ) {}
 
   async execute(command: RegisterBookCommand): Promise<void> {
@@ -38,7 +41,7 @@ export class RegisterBookApplicationService {
         new Price({ amount: command.priceAmount, currency: 'JPY' })
       )
 
-      await this.bookRepository.save(book)
+      await this.bookRepository.save(book, this.domainEventPublisher)
     })
   }
 }
