@@ -1,3 +1,6 @@
+// Reflectのポリフィルをcontainer.resolveされる前に一度読み込む必要がある
+import 'reflect-metadata'
+
 import express from 'express'
 
 import {
@@ -5,10 +8,9 @@ import {
   RegisterBookCommand
 } from '@/application/Book/RegisterBookApplicationService/RegisterBookApplicationService'
 
-// Reflectのポリフィルをcontainer.resolveされる前に一度読み込む必要がある
-import 'reflect-metadata'
 import '../../Program'
 import { container } from 'tsyringe'
+import { BookLogSubscriber } from '@/application/shared/DomainEvent/subscribers/BookLogSubscriber'
 
 const app = express()
 const port = 3000
@@ -19,6 +21,9 @@ app.get('/', (_, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
+
+  // サブスクライバーを登録する
+  container.resolve(BookLogSubscriber)
 })
 
 // JSON形式のリクエストボディを正しく解析するために必要

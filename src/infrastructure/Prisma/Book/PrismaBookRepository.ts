@@ -10,6 +10,7 @@ import { StockId } from '@/domain/models/Book/Stock/StockId/StockId'
 import { Title } from '@/domain/models/Book/Title/Title'
 import { PrismaClientManager } from '../PrismaClientManager'
 import { injectable, inject } from 'tsyringe'
+import { IDomainEventPublisher } from '@/domain/shared/DomainEvent/IDomainEventPublisher'
 
 @injectable()
 export class PrismaBookRepository implements IBookRepository {
@@ -44,7 +45,7 @@ export class PrismaBookRepository implements IBookRepository {
     }
   }
 
-  async save(book: Book) {
+  async save(book: Book, domainEventPublisher: IDomainEventPublisher) {
     const client = this.clientManager.getClient()
     await client.book.create({
       data: {
@@ -60,6 +61,11 @@ export class PrismaBookRepository implements IBookRepository {
         }
       }
     })
+    // ここでイベントをパブリッシュする
+    book.getDomainEvents().forEach((event) => {
+      domainEventPublisher.publish(event)
+    })
+    book.clearDomainEvents()
   }
 
   async update(book: Book) {
