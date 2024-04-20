@@ -2,6 +2,7 @@ import { ITransactionManager } from '@/application/shared/ITransactionManager'
 import { BookId } from '@/domain/models/Book/BookId/BookId'
 import { IBookRepository } from '@/domain/models/Book/IBookRepository'
 import { injectable, inject } from 'tsyringe'
+import { IDomainEventPublisher } from '@/domain/shared/DomainEvent/IDomainEventPublisher'
 
 export type DeleteBookCommand = {
   bookId: string
@@ -13,7 +14,9 @@ export class DeleteBookApplicationService {
     @inject('IBookRepository')
     private bookRepository: IBookRepository,
     @inject('ITransactionManager')
-    private transactionManager: ITransactionManager
+    private transactionManager: ITransactionManager,
+    @inject('IDomainEventPublisher')
+    private domainEventPublisher: IDomainEventPublisher
   ) {}
 
   async execute(command: DeleteBookCommand): Promise<void> {
@@ -24,7 +27,7 @@ export class DeleteBookApplicationService {
         throw new Error('書籍が存在しません')
       }
 
-      await this.bookRepository.delete(book.bookId)
+      await this.bookRepository.delete(book.bookId, this.domainEventPublisher)
     })
   }
 }

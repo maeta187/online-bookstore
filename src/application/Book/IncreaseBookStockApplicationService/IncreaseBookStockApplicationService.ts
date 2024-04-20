@@ -2,6 +2,7 @@ import { ITransactionManager } from '@/application/shared/ITransactionManager'
 import { BookId } from '@/domain/models/Book/BookId/BookId'
 import { IBookRepository } from '@/domain/models/Book/IBookRepository'
 import { injectable, inject } from 'tsyringe'
+import { IDomainEventPublisher } from '@/domain/shared/DomainEvent/IDomainEventPublisher'
 
 export type IncreaseBookStockCommand = {
   bookId: string
@@ -14,7 +15,9 @@ export class IncreaseBookStockApplicationService {
     @inject('IBookRepository')
     private bookRepository: IBookRepository,
     @inject('ITransactionManager')
-    private transactionManager: ITransactionManager
+    private transactionManager: ITransactionManager,
+    @inject('IDomainEventPublisher')
+    private domainEventPublisher: IDomainEventPublisher
   ) {}
 
   async execute(command: IncreaseBookStockCommand): Promise<void> {
@@ -27,7 +30,7 @@ export class IncreaseBookStockApplicationService {
 
       book.incrementStock(command.incrementAmount)
 
-      await this.bookRepository.update(book)
+      await this.bookRepository.update(book, this.domainEventPublisher)
     })
   }
 }
